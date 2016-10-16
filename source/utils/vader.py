@@ -1,4 +1,14 @@
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-vader_analyzer = SentimentIntensityAnalyzer()
 
-print vader_analyzer.polarity_scores('I am happy')
+
+class SentimentAnalyzer:
+    def __init__(self):
+        self.analyzer = SentimentIntensityAnalyzer()
+
+    def get_polarity(self, string):
+        return self.analyzer.polarity_scores(string)
+
+if __name__ == '__main__':
+    analyzer = SentimentAnalyzer()
+    string = "I'm happy!!!"
+    print "polarity:", analyzer.get_polarity(string)
