@@ -40,8 +40,10 @@ class StreamAPI:
         return tweets
 
 
-
 if __name__ == '__main__':
     stream_api = StreamAPI('../config/twitter_api_config.json')
     tweets = stream_api.stream()
-    print stream_api.get_tweets(tweets)
+    for item in stream_api.get_tweets(tweets):
+        for key, value in item.items():
+            print "*", key
+            print " --- ", value
