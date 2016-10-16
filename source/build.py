@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
+import json
+
 from utils import stream
 from utils import preprocessor
 from utils import vader
 from utils import select
 from utils import sort
+from utils import image
 
 
 class DBBuilder:
@@ -14,20 +17,47 @@ class DBBuilder:
         self.sorter = sort.TweetSorter()
         self.preprocessor = preprocessor.Preprocessor()
         self.selector = select.AttributeSelector()
+        self.saver = image.ImageSaver()
         self.vader = vader.SentimentAnalyzer()
         self.db = []
 
-    def set_limit(self, limit):
-        self.limit = limit
+    def gather_limit_tweets(self, limit=30000):
+        self.tweets_num = 0
+        while self.tweets_num < limit:
+            tweets = self.stream_api.get_tweets(self.tweet_stream, limit=1000) # Get limit tweets
+            sorted_tweets = self.sorter(tweets) # select tweets which have several images
+            selected_tweets = [self.selector(item) for item in sorted_tweets] # extract necessary attribute
+            self.insert(selected_tweets)
+        print "saved tweet:", self.tweets_num
 
-    def stream(self):
-        tweets = self.stream_api.get_tweets(self.tweet_stream)
-        sorted_tweets = self.sorter(tweets)
-        selected_tweets = [self.selector(item) for item in sorted_tweets]
-        return selected_tweets
+    def insert(self, tweets):
+        for tweet in tweets:
+            for m in tweet["media"]:
+                if self.saver(self.tweets_num, m):
+                    t = {}
+                    t["id"] = m
+                    t["text"] = self.preprocessor(tweet["text"])
+                    polarity = self.vader(t["text"])
+                    t["positive"] = polarity["pos"]
+                    t["neutral"] = polarity["neu"]
+                    t["negative"] = polarity["neg"]
+                    self.db.append(t)
+                    self.tweets_num += 1
+                else:
+                    continue
+
+    def dump(self):
+        try:
+            f = open('data/image_data.json', 'w')
+            json.dump(self.db, f)
+            f.close()
+            return 1
+        except:
+            return 0
+
+
 
 if __name__ == '__main__':
     dbbuilder = DBBuilder('config/twitter_api_config.json')
-    for item in dbbuilder.stream():
-        print item
-        print "---"
+    dbbuilder.gather_limit_tweets()
+    dbbuilder.dump() # save image data

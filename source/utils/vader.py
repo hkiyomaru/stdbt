@@ -5,10 +5,10 @@ class SentimentAnalyzer:
     def __init__(self):
         self.analyzer = SentimentIntensityAnalyzer()
 
-    def get_polarity(self, string):
+    def __call__(self, string):
         return self.analyzer.polarity_scores(string)
 
 if __name__ == '__main__':
     analyzer = SentimentAnalyzer()
     string = "I'm happy!!!"
-    print "polarity:", analyzer.get_polarity(string)
+    print "polarity:", analyzer(string)
