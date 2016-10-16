@@ -28,9 +28,20 @@ class StreamAPI:
             })
         return r
 
+    def get_tweets(self, tweet_stream, limit=100):
+        tweets = []
+        count = 0
+        for item in tweet_stream:
+            if count >= limit:
+                break
+            else:
+                tweets.append(item)
+                count += 1
+        return tweets
+
+
 
 if __name__ == '__main__':
     stream_api = StreamAPI('../config/twitter_api_config.json')
     tweets = stream_api.stream()
-    for item in tweets:
-            print item["text"]
+    print stream_api.get_tweets(tweets)
