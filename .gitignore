@@ -27,3 +27,4 @@ env/
 
 # data save directory
 source/data
+source/config
