@@ -24,3 +24,6 @@ pip-delete-this-directory.txt
 venv/
 ENV/
 env/
+
+# data save directory
+source/data
