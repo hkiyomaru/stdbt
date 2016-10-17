@@ -33,9 +33,9 @@ class DBBuilder:
     def insert(self, tweets):
         for tweet in tweets:
             for m in tweet["media"]:
-                if self.saver(self.tweets_num, m):
+                if self.saver(self.tweets_num, m): # image was saved
                     t = {}
-                    t["id"] = m
+                    t["id"] = self.tweets_num
                     t["text"] = self.preprocessor(tweet["text"])
                     polarity = self.vader(t["text"])
                     t["positive"] = polarity["pos"]
@@ -43,7 +43,7 @@ class DBBuilder:
                     t["negative"] = polarity["neg"]
                     self.db.append(t)
                     self.tweets_num += 1
-                else:
+                else: # image was not saved
                     continue
 
     def dump(self):
