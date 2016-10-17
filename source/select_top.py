@@ -13,7 +13,9 @@ class TopSelector:
     def sort(self, num_of_top):
         self.sorted_dataset = sorted(self.dataset, key=lambda k: k['positive']-k['negative'], reverse=True)
         positive_dataset = self.sorted_dataset[:num_of_top]
+        print "Lowest positive score:", positive_dataset[-1]['positive']
         negative_dataset = self.sorted_dataset[-num_of_top:]
+        print "Lowest negative score:", negative_dataset[0]['negative']
         self.dump_dataset = positive_dataset + negative_dataset
 
     def dump(self, path_to_sorted_data):
