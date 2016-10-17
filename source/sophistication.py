@@ -22,7 +22,7 @@ class HandSelector:
         for i, data in enumerate(self.dataset):
             image_path = os.path.join('data', 'images', str(data['id'])+'.jpg')
             self.show(image_path)
-            print "0:ok, 1:ng -> ",
+            print "w:write, e:exclude -> ",
             while True:
                 if self.judge(data):
                     break
