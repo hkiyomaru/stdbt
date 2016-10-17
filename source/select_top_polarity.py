@@ -11,7 +11,7 @@ class TopSelector:
         f.close()
 
     def sort(self, num_of_top):
-        self.sorted_dataset = sorted(self.dataset, key=lambda k: k['positive']-k['negative'], reverse=True)
+        self.sorted_dataset = sorted(self.dataset, key=lambda k: k['positive']-k['negative'], reverse=True) # sort by polarity
         positive_dataset = self.sorted_dataset[:num_of_top]
         print "Lowest positive score:", positive_dataset[-1]['positive']
         negative_dataset = self.sorted_dataset[-num_of_top:]

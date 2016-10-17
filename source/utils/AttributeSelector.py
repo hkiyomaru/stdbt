@@ -4,7 +4,6 @@ class AttributeSelector:
 
     def __call__(self, tweet):
         t = {}
-        t["id"] = tweet["id"]
         t["text"] = tweet["text"]
         t["media"] = []
         for m in tweet["extended_entities"]["media"]:

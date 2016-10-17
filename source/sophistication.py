@@ -1,9 +1,12 @@
 import json
+import os
 import commands
+
 
 class HandSelector:
     def __init__(self, path_to_data):
         self.get_json(path_to_data)
+        self.selected_dataset = []
 
     def get_json(self, path_to_data):
         f = open(path_to_data)
@@ -15,10 +18,9 @@ class HandSelector:
         commands.getoutput('xli ' + image_path)
 
     def hand_select(self):
-        self.selected_dataset = []
         print "size of dataset:", self.dataset_size
         for i, data in enumerate(self.dataset):
-            image_path = 'data/images/' + str(data['id']) + '.jpg'
+            image_path = os.path.join('data', 'images', str(data['id'])+'.jpg')
             self.show(image_path)
             print "0:ok, 1:ng -> ",
             while True:
@@ -32,7 +34,6 @@ class HandSelector:
         f = open(path_to_sorted_data, 'wb')
         json.dump(self.selected_dataset, f)
         f.close()
-
 
     def judge(self, data):
         command = raw_input()

@@ -33,11 +33,9 @@ class StreamAPI:
         count = 0
         try:
             for item in tweet_stream:
-                if count >= limit:
-                    break
-                else:
-                    tweets.append(item)
-                    count += 1
+                tweets.append(item)
+                count += 1
+                if count >= limit: break
         except TwitterConnectionError:
             pass
         except Exception as e:
