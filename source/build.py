@@ -20,7 +20,7 @@ class DBBuilder:
         self.vader = vader.SentimentAnalyzer()
         self.db = []
 
-    def gather_limit_tweets(self, limit=50000):
+    def gather_limit_tweets(self, limit=500):
         self.tweets_num = 0
         loop = 0
         while self.tweets_num < limit:
@@ -31,8 +31,8 @@ class DBBuilder:
             print "  Tweets with several images:", len(sorted_tweets)
             selected_tweets = [self.selector(item) for item in sorted_tweets] # extract necessary attribute
             self.insert(selected_tweets)
-            print "  Inserted data number:", len(selected_tweets)
-            print "Go to next step."
+            print "  Total images number:", self.tweets_num
+            print "    Go to next step."
         print "saved tweet:", self.tweets_num
 
     def insert(self, tweets):
