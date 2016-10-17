@@ -30,7 +30,7 @@ class HandSelector:
 
     def dump(self, path_to_sorted_data):
         f = open(path_to_sorted_data, 'wb')
-        json.dump(self.dump_dataset, f)
+        json.dump(self.selected_dataset, f)
         f.close()
 
 
@@ -46,6 +46,6 @@ class HandSelector:
 
 
 if __name__ == '__main__':
-    hs = HandSelector('data/image_data.json')
+    hs = HandSelector('data/_image_data.json')
     hs.hand_select()
-    hs.dump()
+    hs.dump('data/selected_image_data.json')
