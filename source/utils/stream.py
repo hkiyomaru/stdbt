@@ -1,5 +1,5 @@
 import json
-from TwitterAPI import TwitterAPI
+from TwitterAPI import TwitterAPI, TwitterConnectionError
 
 
 class StreamAPI:
@@ -31,12 +31,17 @@ class StreamAPI:
     def get_tweets(self, tweet_stream, limit=100):
         tweets = []
         count = 0
-        for item in tweet_stream:
-            if count >= limit:
-                break
-            else:
-                tweets.append(item)
-                count += 1
+        try:
+            for item in tweet_stream:
+                if count >= limit:
+                    break
+                else:
+                    tweets.append(item)
+                    count += 1
+        except TwitterConnectionError:
+            pass
+        except Exception as e:
+            print('ERROR: %s %s' % (type(e), e))
         return tweets
 
 

@@ -21,7 +21,7 @@ class DBBuilder:
         self.vader = vader.SentimentAnalyzer()
         self.db = []
 
-    def gather_limit_tweets(self, limit=30000):
+    def gather_limit_tweets(self, limit=100000):
         self.tweets_num = 0
         while self.tweets_num < limit:
             tweets = self.stream_api.get_tweets(self.tweet_stream, limit=1000) # Get limit tweets
