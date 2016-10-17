@@ -10,11 +10,11 @@ class TopSelector:
         self.dataset = json.load(f)
         f.close()
 
-    def sort(self):
+    def sort(self, num_of_top):
         self.sorted_dataset = sorted(self.dataset, key=lambda k: k['positive']-k['negative'], reverse=True)
-        positive_dataset = self.sorted_dataset[:10000]
-        negative_dataset = self.sorted_dataset[-10000:]
-        self.dump_dataset = positive_dataset.extend(negative_dataset)
+        positive_dataset = self.sorted_dataset[:num_of_top]
+        negative_dataset = self.sorted_dataset[-num_of_top:]
+        self.dump_dataset = positive_dataset + negative_dataset
 
     def dump(self, path_to_sorted_data):
         f = open(path_to_sorted_data, 'wb')
@@ -24,5 +24,5 @@ class TopSelector:
 
 if __name__ == '__main__':
     ts = TopSelector('data/image_data.json')
-    ts.sort()
-    ts.dump()
+    ts.sort(10)
+    ts.dump('data/_image_data.json')
