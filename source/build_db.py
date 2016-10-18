@@ -21,11 +21,11 @@ class DBBuilder:
         self.db = []
         self.tweets_num = 0
 
-    def gather_limit_tweets(self, limit=100000):
+    def gather_limit_tweets(self, limit=200000):
         while self.tweets_num < limit:
             tweet_stream = self.stream_api.stream()
             # Get limit tweets
-            tweets = self.stream_api.get_tweets(tweet_stream, limit=1000)
+            tweets = self.stream_api.get_tweets(tweet_stream, stream_limit=10000)
             print "Tweets:", len(tweets)
             # select tweets which have several images
             sorted_tweets = self.sorter(tweets)
@@ -65,5 +65,5 @@ class DBBuilder:
 
 if __name__ == '__main__':
     dbbuilder = DBBuilder('config/twitter_api_config.json')
-    dbbuilder.gather_limit_tweets(limit=100)
+    dbbuilder.gather_limit_tweets()
     dbbuilder.dump('data/image_data.json') # save image data

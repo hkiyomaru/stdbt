@@ -45,8 +45,20 @@ class HandSelector:
         else:
             return 0
 
+    def evaluate(self):
+        positive_num = 0
+        negative_num = 0
+        for data in self.selected_dataset:
+            if data['positive'] - data['negative'] > 0:
+                positive_num += 1
+            else:
+                negative_num += 1
+        print "Total iamges:", len(self.selected_dataset)
+        print "Positive images:", positive_num
+        print "Negative images:", negative_num
 
 if __name__ == '__main__':
     hs = HandSelector('data/_image_data.json')
     hs.hand_select()
     hs.dump('data/selected_image_data.json')
+    hs.evaluate()

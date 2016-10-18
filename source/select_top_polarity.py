@@ -26,5 +26,5 @@ class TopSelector:
 
 if __name__ == '__main__':
     ts = TopSelector('data/image_data.json')
-    ts.sort(10)
+    ts.sort(30)
     ts.dump('data/_image_data.json')

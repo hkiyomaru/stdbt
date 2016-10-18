@@ -28,14 +28,14 @@ class StreamAPI:
             })
         return r
 
-    def get_tweets(self, tweet_stream, limit=100):
+    def get_tweets(self, tweet_stream, stream_limit=100):
         tweets = []
         count = 0
         try:
             for item in tweet_stream:
                 tweets.append(item)
                 count += 1
-                if count >= limit: break
+                if count >= stream_limit: break
         except TwitterConnectionError:
             pass
         except Exception as e:
