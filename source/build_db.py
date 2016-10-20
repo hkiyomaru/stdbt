@@ -34,24 +34,23 @@ class DBBuilder:
             selected_tweets = [self.selector(item) for item in sorted_tweets]
             self.insert(selected_tweets)
             print "  Total images number:", self.tweets_num
+            self.dump('data/image_data.json')
             print "    Go to next step."
         print "saved tweet:", self.tweets_num
 
     def insert(self, tweets):
         for tweet in tweets:
             for m in tweet["media"]:
-                if self.saver(self.tweets_num, m): # image was saved
-                    t = {}
-                    t["id"] = self.tweets_num
-                    t["text"] = self.preprocessor(tweet["text"])
-                    polarity = self.vader(t["text"])
-                    t["positive"] = polarity["pos"]
-                    t["neutral"] = polarity["neu"]
-                    t["negative"] = polarity["neg"]
-                    self.db.append(t)
-                    self.tweets_num += 1
-                else: # image was not saved
-                    continue
+                t = {}
+                t["id"] = self.tweets_num
+                t["url"] = m
+                t["text"] = self.preprocessor(tweet["text"])
+                polarity = self.vader(t["text"])
+                t["positive"] = polarity["pos"]
+                t["neutral"] = polarity["neu"]
+                t["negative"] = polarity["neg"]
+                self.db.append(t)
+                self.tweets_num += 1
 
     def dump(self, data_path):
         try:

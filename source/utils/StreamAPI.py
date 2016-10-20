@@ -40,6 +40,7 @@ class StreamAPI:
             pass
         except Exception as e:
             print('ERROR: %s %s' % (type(e), e))
+            pass
         return tweets
 
 
